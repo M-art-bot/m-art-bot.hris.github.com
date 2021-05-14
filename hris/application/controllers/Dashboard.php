@@ -1,0 +1,33 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Dashboard extends CI_Controller {
+	
+	public function index()
+	{	
+		
+		if($this->session->userdata['logged_in']['userid'])
+
+		{
+			$data['title']			= 	"Administrator | Dashboard";
+			$data['system_name']	=	"HRIS";
+			$data['page']			=	"Dashboard";
+
+			$user_id				= 	$this->session->userdata['logged_in']['userid'];
+										
+			$data['credentials']	=	$this->Dashboard_model->get($user_id);
+
+			$this->load->view('administrator/panel/templates/header', $data);
+			$this->load->view('administrator/panel/templates/aside', $data);
+			$this->load->view('administrator/panel/templates/navbar', $data);
+			$this->load->view('administrator/panel/templates/subfooter', $data);
+			$this->load->view('administrator/panel/templates/footer', $data);
+		}
+
+		else{
+
+			redirect('administrator-login');
+		
+		}
+	}
+}
